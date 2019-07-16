@@ -1,0 +1,6 @@
+org\pstcl\ea\FileMaster.class
+org\pstcl\ea\FileService.class
+org\pstcl\ea\FileSortedEntity.class
+org\pstcl\ea\FileSorting.class
+org\pstcl\ea\FileMasterEntityRepository.class
+org\pstcl\ea\FileSortedEntityRepository.class
