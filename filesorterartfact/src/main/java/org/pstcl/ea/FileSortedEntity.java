@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ZZ_SORTED_FILE_MASTER")
+@Table(name = "ZZ_SORTED_FILE_MASTER1")
 public class FileSortedEntity {
 
 	@Id

@@ -110,78 +110,90 @@ public class FileService implements InitializingBean {
 
 	public void afterPropertiesSet() throws Exception {
 		//cleanFiles();
-		copyFilesToNewDb1();
+		copyFilesToNewDb();
 	}
 
-	public void copyFilesToNewDb1()
-	{
-		Iterable<FileMaster> fileMasters=entityRepository.findAll();
-		for (FileMaster fileMaster : fileMasters) 
-		{
-			FileMaster2 fileMaster2=new FileMaster2(fileMaster);
-			try {
+	//	public void copyFilesToNewDb1()
+	//	{
+	//		Iterable<FileMaster> fileMasters=entityRepository.findAll();
+	//		for (FileMaster fileMaster : fileMasters) 
+	//		{
+	//			FileMaster2 fileMaster2=new FileMaster2(fileMaster);
+	//			try {
+	//
+	//				fileMaster2Repo.save(fileMaster2);
+	//			}
+	//			catch(DuplicateKeyException duplicateKeyException)
+	//			{
+	//				duplicateKeyException.printStackTrace();
+	//				
+	//				handleduplicates(fileMaster);
+	//			}
+	//			catch (Exception e)
+	//			{
+	//				e.printStackTrace();
+	//
+	//				handleduplicates(fileMaster);
+	//			
+	//			}
+	//
+	//			
+	//		}
+	//	}
+	//	
+	//	private void handleduplicates(FileMaster fileMaster)
+	//	{
+	//		FileMaster2 fileMaster2=new FileMaster2(fileMaster);
+	//		List<FileMaster> duplicateList=entityRepository.findAllByTransactionDateAndMeter(fileMaster.getTransactionDate(),fileMaster.getMeter());
+	//		if(duplicateList.size()>1)
+	//		{
+	//			for (FileMaster duplicate : duplicateList) {
+	//				dupfileMaster3Repo.save(new FileMaster3(duplicate));
+	//				if(fileMaster.getTxnId()<duplicate.getTxnId())
+	//				{
+	//					fileMaster2=new FileMaster2(duplicate);
+	//				}
+	//			}
+	//			fileMaster2Repo.save(fileMaster2);
+	//			
+	//		}
+	//
+	//	}
+	//	
 
-				fileMaster2Repo.save(fileMaster2);
-			}
-			catch(DuplicateKeyException duplicateKeyException)
-			{
-				duplicateKeyException.printStackTrace();
-				handleduplicates(fileMaster);
-			}
-
-			
-		}
-	}
-	
-	private void handleduplicates(FileMaster fileMaster)
-	{
-		FileMaster2 fileMaster2=new FileMaster2(fileMaster);
-		List<FileMaster> duplicateList=entityRepository.findAllByTransactionDateAndMeter(fileMaster.getTransactionDate(),fileMaster.getMeter());
-		if(duplicateList.size()>1)
-		{
-			for (FileMaster duplicate : duplicateList) {
-				dupfileMaster3Repo.save(new FileMaster3(duplicate));
-				if(fileMaster.getTxnId()<duplicate.getTxnId())
-				{
-					fileMaster2=new FileMaster2(duplicate);
-				}
-			}
-			fileMaster2Repo.save(fileMaster2);
-			
-		}
-
-	}
-	
-	
 	public void copyFilesToNewDb()
 	{
 		Iterable<FileMaster> fileMasters=entityRepository.findAll();
 		for (FileMaster fileMaster : fileMasters) 
 		{
-			FileMaster2 fileMaster2=new FileMaster2(fileMaster);
+			//FileMaster2 fileMaster2=new FileMaster2(fileMaster);
 			List<FileMaster> duplicateList=entityRepository.findAllByTransactionDateAndMeter(fileMaster.getTransactionDate(),fileMaster.getMeter());
 			if(duplicateList.size()==1)
 			{
-				fileMaster2=new FileMaster2(duplicateList.get(0));
+				//fileMaster2=new FileMaster2(duplicateList.get(0));
 			}
 			else
 			{
 				for (FileMaster duplicate : duplicateList) {
 					dupfileMaster3Repo.save(new FileMaster3(duplicate));
-					if(fileMaster2.getTxnId()<duplicate.getTxnId())
-					{
-						fileMaster2=new FileMaster2(duplicate);
-					}
+//					if(fileMaster2.getTxnId()<duplicate.getTxnId())
+//					{
+//						fileMaster2=new FileMaster2(duplicate);
+//					}
 				}
 
 			}
 			try {
 
-				fileMaster2Repo.save(fileMaster2);
+//				fileMaster2Repo.save(fileMaster2);
 			}
 			catch(DuplicateKeyException duplicateKeyException)
 			{
 				duplicateKeyException.printStackTrace();				
+			}
+			catch(Exception exception)
+			{
+				exception.printStackTrace();
 			}
 
 		}
