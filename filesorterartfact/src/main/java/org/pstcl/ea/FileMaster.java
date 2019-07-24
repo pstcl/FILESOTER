@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name = "FILE_MASTER")
+@Table(name = "file_master_eap_old")
 public class FileMaster {
 
 
