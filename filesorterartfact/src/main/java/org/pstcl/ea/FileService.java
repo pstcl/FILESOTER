@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -17,6 +18,12 @@ public class FileService implements InitializingBean {
 	@Autowired
 	FileMasterEntityRepository entityRepository;
 
+	@Autowired
+	FileMasterEntityRepository2 fileMaster2Repo;
+
+
+	@Autowired
+	FileMasterEntityRepository3 dupfileMaster3Repo;
 	@Autowired
 	FileSortedEntityRepository fileSortedEntityRepository;
 
@@ -48,7 +55,7 @@ public class FileService implements InitializingBean {
 	private Integer copyTextFile(FileMaster fileMaster) {
 		Integer sttus=-100;
 		File txtFile = new File(fileMaster.getTxtfileName());
-		String txtFileName=fileMaster.getTxtfileName().replace("CMRI", "EA2/CMRI");
+		String txtFileName=fileMaster.getTxtfileName().replace("SLDC_ENERGY_ACC", "SLDC_ENERGY_ACC2");
 
 		File newTxtFile = new File(txtFileName);
 
@@ -81,7 +88,7 @@ public class FileService implements InitializingBean {
 		Integer sttus=-100;
 
 		File zipFile = new File(fileMaster.getZipfileName());
-		String zipFileName=fileMaster.getZipfileName().replace("CMRI", "EA2/CMRI");
+		String zipFileName=fileMaster.getZipfileName().replace("SLDC_ENERGY_ACC", "SLDC_ENERGY_ACC2");
 		File newZipFile = new File(zipFileName);
 		if (!newZipFile.getParentFile().exists()) {
 			newZipFile.getParentFile().mkdirs();
@@ -102,7 +109,48 @@ public class FileService implements InitializingBean {
 
 
 	public void afterPropertiesSet() throws Exception {
-		cleanFiles();
+		//cleanFiles();
+		copyFilesToNewDb();
 	}
 
+	public void copyFilesToNewDb()
+	{
+
+
+
+		Iterable<FileMaster> fileMasters=entityRepository.findAll();
+
+
+		for (FileMaster fileMaster : fileMasters) {
+
+			FileMaster2 fileMaster2=new FileMaster2(fileMaster);
+			List<FileMaster> duplicateList=entityRepository.findAllByTransactionDateAndMeter(fileMaster.getTransactionDate(),fileMaster.getMeter());
+			if(duplicateList.size()==1)
+			{
+
+				fileMaster2=new FileMaster2(duplicateList.get(0));
+			}
+			else
+			{
+				for (FileMaster duplicate : duplicateList) {
+
+					dupfileMaster3Repo.save(new FileMaster3(duplicate));
+					if(fileMaster2.getTxnId()<duplicate.getTxnId())
+					{
+						fileMaster2=new FileMaster2(duplicate);
+					}
+				}
+
+			}
+			try {
+
+				fileMaster2Repo.save(fileMaster2);
+			}
+			catch(DuplicateKeyException duplicateKeyException)
+			{
+				duplicateKeyException.printStackTrace();				
+			}
+
+		}
+	}
 }

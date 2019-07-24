@@ -1,12 +1,9 @@
 package org.pstcl.ea;
 
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface FileMasterEntityRepository extends PagingAndSortingRepository<FileMaster, Integer> {
-	List<FileMaster> findAllByTransactionDateAndMeter(Date transactionDate,String meter);
+public interface FileMasterEntityRepository3 extends PagingAndSortingRepository<FileMaster3, Integer> {
+	
 
 
 

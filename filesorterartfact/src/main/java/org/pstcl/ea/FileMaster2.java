@@ -15,8 +15,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-@Table(name = "FILE_MASTER")
-public class FileMaster {
+@Table(name = "FILE_MASTER_WithoutDup")
+public class FileMaster2 {
 
 
 
@@ -24,6 +24,75 @@ public class FileMaster {
 	@CreationTimestamp
 	private Date createDateTime;
 
+
+	public FileMaster2() {
+		
+	}
+	public FileMaster2(FileMaster fileMaster) {
+		super();
+		this.createDateTime = fileMaster.getCreateDateTime();
+		this.meter = fileMaster.getMeter();
+		this.dailyRecordCount = fileMaster.getDailyRecordCount();
+		this.dailyRecordNoEnd = fileMaster.getDailyRecordNoEnd();
+		this.dailyRecordNoStart = fileMaster.getDailyRecordNoStart();
+		this.fileActionStatus = fileMaster.getFileActionStatus();
+		this.fileType = fileMaster.getFileType();
+		this.processingStatus = fileMaster.getProcessingStatus();
+		this.tamperLogCount = fileMaster.getTamperLogCount();
+		this.tamperLogNoEnd = fileMaster.getTamperLogNoEnd();
+		this.tamperLogNoStart = fileMaster.getTamperLogNoStart();
+		this.surveyRecordCount = fileMaster.getSurveyRecordCount();
+		this.surveyRecordNoEnd = fileMaster.getSurveyRecordNoEnd();
+		this.surveyRecordNoStart = fileMaster.getSurveyRecordNoStart();
+		this.transactionDate = fileMaster.getTransactionDate();
+		this.txnId = fileMaster.getTxnId();
+		this.txtfileName = fileMaster.getTxtfileName();
+		this.updateDateTime = fileMaster.getUpdateDateTime();
+		this.userfileName = fileMaster.getUserfileName();
+		this.zipfileName = fileMaster.getZipfileName();	
+	}
+	
+
+	public FileMaster2(Date createDateTime, String meter, Integer dailyRecordCount, Integer dailyRecordNoEnd,
+			Integer dailyRecordNoStart, Integer fileActionStatus, Integer fileType, Integer processingStatus,
+			Integer tamperLogCount, Integer tamperLogNoEnd, Integer tamperLogNoStart, Integer surveyRecordCount,
+			Integer surveyRecordNoEnd, Integer surveyRecordNoStart, Date transactionDate, Integer txnId,
+			String txtfileName, Date updateDateTime, String userfileName, String zipfileName) {
+		super();
+		this.createDateTime = createDateTime;
+		this.meter = meter;
+		this.dailyRecordCount = dailyRecordCount;
+		this.dailyRecordNoEnd = dailyRecordNoEnd;
+		this.dailyRecordNoStart = dailyRecordNoStart;
+		this.fileActionStatus = fileActionStatus;
+		this.fileType = fileType;
+		this.processingStatus = processingStatus;
+		this.tamperLogCount = tamperLogCount;
+		this.tamperLogNoEnd = tamperLogNoEnd;
+		this.tamperLogNoStart = tamperLogNoStart;
+		this.surveyRecordCount = surveyRecordCount;
+		this.surveyRecordNoEnd = surveyRecordNoEnd;
+		this.surveyRecordNoStart = surveyRecordNoStart;
+		this.transactionDate = transactionDate;
+		this.txnId = txnId;
+		this.txtfileName = txtfileName;
+		this.updateDateTime = updateDateTime;
+		this.userfileName = userfileName;
+		this.zipfileName = zipfileName;
+	}
+
+
+	public String getMeter() {
+		return meter;
+	}
+
+	public void setMeter(String meter) {
+		this.meter = meter;
+	}
+
+	@Column(name="METER_ID")
+	private String meter;
+	
 	@Column
 	private Integer dailyRecordCount;
 
@@ -33,9 +102,7 @@ public class FileMaster {
 	@Column
 	private Integer dailyRecordNoStart;
 
-	@Column(name="METER_ID")
-	private String meter;
-	
+
 
 	@Column
 	private Integer fileActionStatus;
@@ -47,14 +114,6 @@ public class FileMaster {
 
 
 
-
-	public String getMeter() {
-		return meter;
-	}
-
-	public void setMeter(String meter) {
-		this.meter = meter;
-	}
 
 	@Column
 	private Integer processingStatus;
@@ -108,7 +167,6 @@ public class FileMaster {
 	private Date transactionDate;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer txnId;
 
 	@Column
